@@ -1,0 +1,46 @@
+[project]
+name = "tfl-weather-pipeline"
+version = "0.1.0"
+description = "Data pipeline to predict TfL disruptions based on weather data"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "boto3>=1.42.78",
+    "localstack>=2026.3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.3.0",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    ".eggs",
+    "*.egg",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # isort (import ordering)
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "UP",     # pyupgrade
+]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+    "E203",   # whitespace before ':'
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["ingestion", "ml", "spark"]
