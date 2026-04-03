@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "boto3>=1.42.78",
+    "dbt-spark>=1.10.1",
     "localstack>=2026.3.0",
 ]
 
@@ -40,6 +41,7 @@ select = [
 ignore = [
     "E501",   # line too long (handled by formatter)
     "E203",   # whitespace before ':'
+    "W293",   # blank line contains whitespace
 ]
 
 [tool.ruff.lint.isort]
