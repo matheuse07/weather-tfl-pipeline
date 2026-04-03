@@ -17,7 +17,7 @@ x-airflow-common: &airflow-common
     BRONZE_BUCKET: ${BRONZE_BUCKET}
     SILVER_BUCKET: ${SILVER_BUCKET}
     GOLD_BUCKET: ${GOLD_BUCKET}
-    PYTHONPATH: /opt/airflow/ingestion
+    PYTHONPATH: /opt/airflow/
   volumes:
     - ./airflow/dags:/opt/airflow/dags
     - ./airflow/logs:/opt/airflow/logs

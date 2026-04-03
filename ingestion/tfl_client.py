@@ -23,48 +23,49 @@ class TFLClient:
         )
         self.bucket = os.getenv("BRONZE_BUCKET")
 
-        def _get(self, path: str) -> dict | list:
-            """Helper method to make GET requests to the TfL API."""
-            url = f"{self.BASE_URL}{path}"
-            params = {"app_key": self.app_key}
-            response = requests.get(url, params=params)
-            response.raise_for_status()
+    def _get(self, path: str) -> dict | list:
+        """Helper method to make GET requests to the TfL API."""
+        url = f"{self.BASE_URL}{path}"
+        params = {"app_key": self.app_key}
+        response = requests.get(url, params=params)
+        response.raise_for_status()
 
-            return response.json()
+        return response.json()
 
-        def fetch_line_status(self) -> list:
-            """Fetches the current status of all TfL lines."""
-            return self._get("/Line/Mode/tube/Status")
+    def fetch_line_status(self) -> list:
+        """Fetches the current status of all TfL lines."""
+        return self._get("/Line/Mode/tube/Status")
 
-        def fetch_disruptions(self) -> list:
-            """Fetches current disruptions across all TfL modes."""
-            return self._get("/Line/Disruption")
+    def fetch_disruptions(self) -> list:
+        """Fetches current disruptions across all TfL modes."""
+        return self._get("/Line/Mode/tube/Disruption")
 
-        def upload_to_bronze(
-            self, data: list, data_type: str, execution_ts: datetime
-        ) -> str:
-            """
-            Uploads raw JSON to S3 with Hive-style partitioning:
-            tfl/{data_type}/year=YYYY/month=MM/day=DD/hour=HH/{timestamp}.json
-            """
-            ts = execution_ts.astimezone(UTC)
-            key = (
-                f"tfl/{data_type}/"
-                f"year={ts.year}/month={ts.month:02d}/day={ts.day:02d}/hour={ts.hour:02d}/"
-                f"{ts.strftime('%Y%m%d_%H%M%S')}.json"
-            )
-            payload = {
-                "ingested_at": ts.isoformat(),
-                "source": "tfl_api",
-                "data_type": data_type,
-                "record_count": len(data),
-                "records": data,
-            }
-            self.s3.put_object(
-                Bucket=self.bucket,
-                Key=key,
-                Body=json.dumps(payload, default=str),
-                ContentType="application/json",
-            )
-            print(f"Uploaded {len(data)} records to s3://{self.bucket}/{key}")
-            return key
+    def upload_to_bronze(
+        self, data: list, data_type: str, execution_ts: datetime
+    ) -> str:
+        """
+        Uploads raw JSON to S3 with Hive-style partitioning:
+        tfl/{data_type}/year=YYYY/month=MM/day=DD/hour=HH/{timestamp}.json
+        """
+        ts = execution_ts.astimezone(UTC)
+        key = (
+            f"tfl/{data_type}/"
+            f"year={ts.year}/month={ts.month:02d}/day={ts.day:02d}/hour={ts.hour:02d}/"
+            f"{ts.strftime('%Y%m%d_%H%M%S')}.json"
+        )
+        payload = {
+            "ingested_at": ts.isoformat(),
+            "source": "tfl_api",
+            "data_type": data_type,
+            "record_count": len(data),
+            "records": data,
+        }
+        self.s3.put_object(
+            Bucket=self.bucket,
+            Key=key,
+            Body=json.dumps(payload, default=str),
+            ContentType="application/json",
+        )
+        print(f"Uploaded {len(data)} records to s3://{self.bucket}/{key}")
+        return key
+

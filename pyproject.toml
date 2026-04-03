@@ -9,6 +9,7 @@ dependencies = [
     "boto3>=1.42.78",
     "dbt-spark>=1.10.1",
     "graphviz>=0.21",
+    "ipykernel>=7.2.0",
     "localstack>=2026.3.0",
 ]
 
