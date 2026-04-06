@@ -11,4 +11,7 @@ wheels/
 
 # environment variables
 .env
-
+ 
+# Airflow logs
+logs/
+airflow/logs/
