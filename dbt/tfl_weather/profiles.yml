@@ -1,0 +1,10 @@
+tfl_weather:
+  target: dev
+  outputs:
+    dev:
+      type: dbt-duckdb
+      method: thrift
+      host: localhost
+      port: 10000
+      schema: tfl_gold
+      threads: 4
