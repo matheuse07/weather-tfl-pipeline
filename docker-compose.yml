@@ -62,6 +62,11 @@ services:
         airflow db init &&
         airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com
       "
+    depends_on:
+    postgres:
+      condition: service_healthy
+    localstack:
+      condition: service_started
 
   spark-master:
     build: ./spark
