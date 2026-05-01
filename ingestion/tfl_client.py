@@ -68,4 +68,3 @@ class TFLClient:
         )
         print(f"Uploaded {len(data)} records to s3://{self.bucket}/{key}")
         return key
-

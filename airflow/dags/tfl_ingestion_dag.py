@@ -40,7 +40,6 @@ with DAG(
     max_active_runs=1,
     tags=["ingestion", "tfl", "bronze"],
 ) as dag:
-
     line_status_task = PythonOperator(
         task_id="ingest_line_status",
         python_callable=ingest_line_status,

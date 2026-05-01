@@ -14,12 +14,12 @@ DEFAULT_ARGS = {
 }
 
 SPARK_CONF = {
-        "spark.hadoop.fs.s3a.endpoint": "http://localstack:4566",
-        "spark.hadoop.fs.s3a.access.key": "test",
-        "spark.hadoop.fs.s3a.secret.key": "test",
-        "spark.hadoop.fs.s3a.path.style.access": "true",
-        "spark.hadoop.fs.s3a.impl": "org.apache.hadoop.fs.s3a.S3AFileSystem",
-    }
+    "spark.hadoop.fs.s3a.endpoint": "http://localstack:4566",
+    "spark.hadoop.fs.s3a.access.key": "test",
+    "spark.hadoop.fs.s3a.secret.key": "test",
+    "spark.hadoop.fs.s3a.path.style.access": "true",
+    "spark.hadoop.fs.s3a.impl": "org.apache.hadoop.fs.s3a.S3AFileSystem",
+}
 
 with DAG(
     dag_id="spark_bronze_to_silver",

@@ -7,7 +7,6 @@ from pyspark.sql.types import (
     StringType,
     StructField,
     StructType,
-    TimestampType,
 )
 
 
@@ -75,7 +74,7 @@ def process_line_status(spark: SparkSession, partition_date: str):
         enriched_df.repartition(1)  # small dataset, 1 file per partition is fine
         .write.mode("overwrite")
         .partitionBy("partition_date")
-        .parquet(f"s3a://tfl-weather-silver/tfl_line_status/")
+        .parquet("s3a://tfl-weather-silver/tfl_line_status/")
     )
 
     count = enriched_df.count()
